@@ -63,7 +63,45 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20.0),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final currentPosition =
+                              await Geolocator.getCurrentPosition();
+                          final distance = Geolocator.distanceBetween(
+                            currentPosition.latitude,
+                            currentPosition.longitude,
+                            companyLatLng.latitude,
+                            companyLatLng.longitude,
+                          );
+
+                          bool canCheck = distance < 100;
+
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: Text('출근하기'),
+                                content: Text(canCheck
+                                    ? '출근 하시겠습니까?'
+                                    : '출근할 수 없는 위치입니다.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(false);
+                                    },
+                                    child: Text('취소'),
+                                  ),
+                                  if (canCheck)
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text('출근하기'),
+                                    )
+                                ],
+                              );
+                            },
+                          );
+                        },
                         child: Text('출근하기!'),
                       ),
                     ],
