@@ -13,6 +13,15 @@ class HomeScreen extends StatelessWidget {
     position: companyLatLng,
   );
 
+  static final Circle circle = Circle(
+    circleId: CircleId('attendanceCircle'),
+    center: companyLatLng,
+    fillColor: Colors.blue.withOpacity(0.5),
+    radius: 100,
+    strokeColor: Colors.blue,
+    strokeWidth: 1,
+  );
+
   const HomeScreen({super.key});
 
   @override
@@ -38,7 +47,9 @@ class HomeScreen extends StatelessWidget {
                       target: companyLatLng,
                       zoom: 16,
                     ),
+                    myLocationEnabled: true,
                     markers: Set.from([marker]),
+                    circles: Set.from([circle]),
                   ),
                 ),
                 Expanded(
@@ -50,13 +61,13 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.blue,
                         size: 50.0,
                       ),
+                      const SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text('출근하기!'),
+                      ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('출근하기!'),
                 ),
               ],
             );
@@ -109,4 +120,3 @@ class HomeScreen extends StatelessWidget {
     return '위치 권한이 허가 되었습니다.';
   }
 }
-
